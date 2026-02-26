@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="dist/css/login/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="background-overlay"></div>
+<div class="login-container">
+    <div class="icon-circle">
+        <i class="fas fa-camera"></i>
+    </div>
+
+    <form class="login-form" th:action="@{/perform_login}" method="post">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="input-group">
+            <div class="input-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <input type="password" name="password" placeholder="*********" required>
+        </div>
+
+        <button type="submit" class="login-btn">LOGIN</button>
+
+        <!--<div class="form-footer">
+            <label class="checkbox-container">
+                <input type="checkbox">
+                <span class="checkmark"></span>
+                Remember me
+            </label>
+            <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>-->
+    </form>
+</div>
+
+<!--<div class="copyright">
+    Copyright © 2018 Your Brand Name, Inc
+</div>-->
+
+<script src="dist/js/login/login.js"></script>
+</body>
+</html>

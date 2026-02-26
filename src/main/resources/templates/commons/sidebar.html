@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="menuSidebar">
+<ul class="sidebar-menu" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <li class="nav-header text-uppercase text-wrap">
+        ALUMNOS
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','ALMACEN')">
+        <a th:href="@{/alumnos}" class="nav-link" id="vistaAlumnos">
+            <i class="nav-icon fas fa-door-open"></i>
+            <p>Alumnos</p>
+        </a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('ALMACEN')">
+        <a th:href="@{/alumnos}" class="nav-link" id="vistaDocentes">
+            <i class="nav-icon fas fa-door-open"></i>
+            <p>Personal</p>
+        </a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('ALMACEN')">
+        <a th:href="@{/Administracion/resguardos}" class="nav-link" id="vistaDocentes">
+            <i class="nav-icon fas fa-door-open"></i>
+            <p>Resguardos</p>
+        </a>
+    </li>
+</ul>
+</div>

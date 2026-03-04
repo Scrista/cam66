@@ -36,6 +36,17 @@ public class MaterialDidactico implements Serializable {
     @Column(name = "cantidadRestante")
     private Integer cantidadRestante;
 
+    @Column(name = "sididactico")
+    private Boolean sididactico;
+
+    public Boolean getSididactico() {
+        return sididactico;
+    }
+
+    public void setSididactico(Boolean sididactico) {
+        this.sididactico = sididactico;
+    }
+
     public Integer getCantidadRestante() {
         return cantidadRestante;
     }

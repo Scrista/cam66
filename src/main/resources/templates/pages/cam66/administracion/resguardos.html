@@ -368,28 +368,24 @@
 
             <div class="row" style="width: 80%; margin: 0 auto">
                 <div class="col-md-4">
-                    <button id="btnNuevoResguardo" class="btn btn-success" ><i class="fa fa-user-secret"></i>Nuevo resguardo</button>
+                    <button id="btnNuevoResguardo" class="btn btn-success"><i class="fa fa-user-secret"></i>Nuevo
+                        resguardo
+                    </button>
                 </div>
             </div>
 
             <div class="row" style="width: 80%; margin: 0 auto">
-           <!--     <div class="card-body">
-                    <table id="table-alumnos" class="table table-bordered table-striped table-hover mb-3 table-sm">
+
+                <div class="card-body">
+                    <table id="table-Material" class="table table-bordered table-striped table-hover mb-3 table-sm">
                         <thead>
                         <tr>
-                            <th scope="col">idAlumno</th>
+                            <th scope="col">Folio</th>
 
-                            <th scope="col">Paterno</th>
-                            <th scope="col">Materno</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">CURP</th>
-                            <th scope="col">Fecha Nacimiento</th>
-                            <th scope="col">Condición</th>
-                            <th scope="col">Grado Real</th>
-                            &lt;!&ndash;                                <th scope="col">Grado interno</th>&ndash;&gt;
-                            <th scope="col">Tutor</th>
-                            <th scope="col">Acción</th>
-
+                            <th scope="col">Descripción</th>
+                            <th scope="col">piezas</th>
+                            <th scope="col">Cantida Restante</th>
+                            <th scope="col">estado</th>
 
                         </tr>
                         </thead>
@@ -397,7 +393,9 @@
                         <tfoot>
 
                     </table>
-                </div>-->
+                </div>
+
+
             </div>
 
             <div id="modalNuevoResguardo" class="modal fade" tabindex="-1" role="dialog">
@@ -411,66 +409,57 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
-                        <!-- BODY -->
-                        <div class="modal-body">
+
+                            <!-- BODY -->
+                            <div class="modal-body">
 
 
-                            <div class="row mb-3">
+                                <div class="row mb-3">
 
-                                <div class="col-md-4 w-100 overflow-hidden">
-                                    <label>Resguardatarios</label>
-                                    <select style=" max-width: 100%;" class="form-select" id="proveedorSelect"
-                                            name="proveedor" required autofocus>
-                                        <option value="" disabled selected>Seleccione una condición</option>
-                                        <option th:each="personal : ${personal}" th:value="${personal.id}"
-                                                th:text="${personal.nombre}">
-                                        </option>
-                                    </select>
+                                    <div class="col-md-4 w-100 overflow-hidden">
+                                        <label>Resguardatarios</label>
+                                        <select style=" max-width: 100%;" class="form-control form-select" id="proveedorSelect"
+                                                name="proveedor" required autofocus>
+                                            <option value="" disabled selected>Seleccione una condición</option>
+                                            <option th:each="personal : ${personal}" th:value="${personal.id}"
+                                                    th:text="${personal.nombre}">
+                                            </option>
+                                        </select>
 
+
+
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <label>Artículos</label>
+                                        <select class="form-control" required id="articuloResguardo" style="width:100%"></select>
+
+                                    </div>
                                 </div>
 
-                                <div class="col-md-8">
-                                    <label>Artículos</label>
-                                    <select id="articuloResguardo" style="width:100%"></select>
-                                </div>
-                            </div>
+                                <div class="row" style="margin-top: 3%">
+                                    <div class="col-md-12">
+                                        <label class="col-md-12">Observaciones</label>
+                                        <div class="col-md-8">
+                                            <textarea cols="90" rows="5" maxlength="600"></textarea>
+                                        </div>
 
-                            <div class="row">
-                                <div class="card-body">
-                                    <table id="table-Material" class="table table-bordered table-striped table-hover mb-3 table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Folio</th>
-
-                                            <th scope="col">Descripción</th>
-                                            <th scope="col">piezas</th>
-                                            <th scope="col">Cantida Restante</th>
-                                            <th scope="col">estado</th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                        <tfoot>
-
-                                    </table>
+                                    </div>
                                 </div>
 
 
                             </div>
 
+                            <!-- FOOTER -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Cancelar
+                                </button>
+                                <button type="submit" id="btnGuardarResguardo" class="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
 
-
-                        </div>
-
-                        <!-- FOOTER -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                Cancelar
-                            </button>
-                            <button type="button" id="btnGuardarAlumno" class="btn btn-primary">
-                                Guardar cambios
-                            </button>
-                        </div>
 
                     </div>
 

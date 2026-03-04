@@ -79,3 +79,7 @@ $('#modalNuevoResguardo').on('shown.bs.modal', function () {
     });
 
 });
+
+$(document).on("click","#btnGuardarResguardo",function (){
+alert(1)
+})

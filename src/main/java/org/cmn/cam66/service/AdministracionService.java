@@ -1,6 +1,7 @@
 package org.cmn.cam66.service;
 
 import org.cmn.cam66.entity.MaterialDidactico;
+import org.cmn.cam66.entity.Resguardos;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,6 @@ public interface AdministracionService {
     Page<MaterialDidactico> getMaterial(Pageable sortedPageable);
 
     List<MaterialDidactico> getAllArticulo();
+
+    List<Resguardos> getResguardos();
 }

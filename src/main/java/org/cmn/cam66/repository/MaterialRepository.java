@@ -40,6 +40,7 @@ public interface MaterialRepository extends JpaRepository<MaterialDidactico, Lon
        FROM material m 
        WHERE m.activo = :activo 
        AND m.cantidadRestante > :restante
+              AND m.sididactico = true
        """)
     List<MaterialDidactico> getAllMaterialActivoAndRestante(
             @Param("activo") Boolean activo,

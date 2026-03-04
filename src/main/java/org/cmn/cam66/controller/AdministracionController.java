@@ -16,6 +16,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.cmn.cam66.entity.Alumno;
 import org.cmn.cam66.entity.MaterialDidactico;
 import org.cmn.cam66.entity.Personal;
+import org.cmn.cam66.entity.Resguardos;
 import org.cmn.cam66.repository.MaterialRepository;
 import org.cmn.cam66.service.AdministracionService;
 import org.cmn.cam66.service.PersonalService;
@@ -26,12 +27,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -132,5 +132,38 @@ public class AdministracionController {
 
     }
 
+
+
+    @RequestMapping(
+            value = "/Administracion/getResguardos",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public @ResponseBody
+    List<Resguardos> getResguardos(
+
+            HttpServletRequest request,
+            HttpServletResponse response
+
+    ) throws IOException {
+
+        List<Resguardos> art = administracionService.getResguardos();
+
+
+        return art;
+
+    }
+
+    @PostMapping("Administracion/saveResguardo")
+    @ResponseBody
+    public Resguardos saveResguardo(@AuthenticationPrincipal UserDetails user, @RequestParam(name = "idpersonal") Long idPersonal,
+                                    @RequestParam(name = "articulos") String articulos,
+                                    @RequestParam(name = "obs") String obs){
+
+
+
+
+        return null;
+    }
 
 }

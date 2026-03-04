@@ -2,6 +2,7 @@ package org.cmn.cam66.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cmn.cam66.entity.MaterialDidactico;
+import org.cmn.cam66.entity.Resguardos;
 import org.cmn.cam66.repository.MaterialRepository;
 import org.cmn.cam66.service.AdministracionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,10 @@ public class AdministracionServiceImpl implements AdministracionService {
 //
 
         return mtr;
+    }
+
+    @Override
+    public List<Resguardos> getResguardos() {
+        return List.of();
     }
 }

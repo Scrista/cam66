@@ -6,6 +6,7 @@ import org.cmn.cam66.service.PersonalService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Santiago Cristales
@@ -39,5 +40,10 @@ public class PersonalServiceImpl implements PersonalService {
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Personal> findByUsuario(String username) {
+        return repository.findByUsuario(username);
     }
 }

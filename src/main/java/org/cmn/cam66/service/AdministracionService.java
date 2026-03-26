@@ -1,12 +1,12 @@
 package org.cmn.cam66.service;
 
+import org.cmn.cam66.Bitacoraimpresion;
 import org.cmn.cam66.entity.MaterialDidactico;
 import org.cmn.cam66.entity.Resguardos;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Santiago Cristales
@@ -19,4 +19,6 @@ public interface AdministracionService {
     List<MaterialDidactico> getAllArticulo();
 
     List<Resguardos> getResguardos();
+
+    Page<Bitacoraimpresion> getImpresiones(Pageable sortedPageable);
 }

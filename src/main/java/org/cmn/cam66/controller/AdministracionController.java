@@ -13,12 +13,14 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import org.cmn.cam66.Bitacoraimpresion;
 import org.cmn.cam66.entity.Alumno;
 import org.cmn.cam66.entity.MaterialDidactico;
 import org.cmn.cam66.entity.Personal;
 import org.cmn.cam66.entity.Resguardos;
 import org.cmn.cam66.repository.MaterialRepository;
 import org.cmn.cam66.service.AdministracionService;
+import org.cmn.cam66.service.ImpresionService;
 import org.cmn.cam66.service.PersonalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,11 +37,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Santiago Cristales
@@ -55,6 +55,9 @@ public class AdministracionController {
 
     @Autowired
     AdministracionService administracionService;
+
+    @Autowired
+    ImpresionService impresionService;
 
 
     @RequestMapping("/Administracion/resguardos")
@@ -154,16 +157,119 @@ public class AdministracionController {
 
     }
 
-    @PostMapping("Administracion/saveResguardo")
+    @RequestMapping("Administracion/saveResguardo")
     @ResponseBody
-    public Resguardos saveResguardo(@AuthenticationPrincipal UserDetails user, @RequestParam(name = "idpersonal") Long idPersonal,
+    public Resguardos saveResguardo(@AuthenticationPrincipal UserDetails user,
+                                    @RequestParam(name = "idpersonal") Long idPersonal,
                                     @RequestParam(name = "articulos") String articulos,
                                     @RequestParam(name = "obs") String obs){
 
 
+        Optional<Personal> autoriza = personalService.findByUsuario(user.getUsername());
+        Personal resguarda = personalService.findById(idPersonal);
 
+        Resguardos resguardo = new Resguardos();
+
+        resguardo.setAutoriza(autoriza.get());
+        resguardo.setObsAutoriza(obs);
+        resguardo.setResguarda(resguarda);
 
         return null;
+    }
+
+
+    @RequestMapping("/Administracion/impresiones")
+    public String impresiones(Model model) {
+
+
+        List<Personal> personal = personalService.findAll();
+
+        model.addAttribute("personal", personal);
+
+
+        return "pages/cam66/administracion/impresiones";
+
+
+    }
+
+    //getImpresiones
+
+    @GetMapping("/Administracion/getImpresiones")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getImpresiones(Pageable pageable,
+                                                           @RequestParam(name = "search[value]") String search, @RequestParam Map<String, String> params) {
+        List<Sort.Order> orders = new ArrayList<>();
+        int orderIndex = 0;
+
+        while (params.containsKey("order[" + orderIndex + "][column]")) {
+            String columnIndex = params.get("order[" + orderIndex + "][column]");
+            String dir = params.get("order[" + orderIndex + "][dir]");
+
+            // Obtén el nombre de la propiedad asociada al índice de columna
+            String columnName = params.get("columns[" + columnIndex + "][data]");
+            if (columnName != null && !columnName.isEmpty()) {
+                Sort.Direction direction = "desc".equalsIgnoreCase(dir) ? Sort.Direction.DESC : Sort.Direction.ASC;
+                System.out.println("columnName: " + columnName);
+                orders.add(new Sort.Order(direction, columnName));
+            }
+            orderIndex++;
+        }
+        System.out.println("orders" + orders);
+        Sort sort = Sort.by(orders);
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        Page<Bitacoraimpresion> impresiones;
+        if (search.isBlank() || search.isEmpty()) {
+            impresiones = administracionService.getImpresiones(sortedPageable);
+        } else {
+            // TODO: Hacer el metodo findAll con el search
+            impresiones = administracionService.getImpresiones(sortedPageable);
+            // usuarios = usuarioService.findAllSearch(search, sortedPageable);
+        }
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (Bitacoraimpresion b : impresiones) {
+            total = total.add(b.getCobrar());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("draw", params.get("draw"));
+        response.put("data", impresiones.getContent()); // Datos actuales
+        response.put("recordsTotal", impresiones.getTotalElements()); // Total de registros
+        response.put("recordsFiltered", impresiones.getTotalElements()); // Total de registros filtrados
+        response.put("total", total); // Total de registros filtrados
+        return ResponseEntity.ok(response);
+    }
+
+
+//    saveBitacoraImpresion
+
+
+
+    @RequestMapping("Administracion/saveBitacoraImpresion")
+    @ResponseBody
+    public Bitacoraimpresion saveBitacoraImpresion(@AuthenticationPrincipal UserDetails user,
+                                    @RequestParam(name = "idpersonal") Long idPersonal,
+                                    @RequestParam(name = "cantidad") int cantidad,
+                                    @RequestParam(name = "costo") Double costo){
+
+
+        Personal solicita = personalService.findById(idPersonal);
+        Optional<Personal> creador = personalService.findByUsuario(user.getUsername());
+        Date fecha = new Date(System.currentTimeMillis());
+        Bitacoraimpresion bitacora = new Bitacoraimpresion();
+        bitacora.setCantidad(cantidad);
+        bitacora.setCobrar(BigDecimal.valueOf(costo*cantidad));
+        bitacora.setCobrado(false);
+        bitacora.setFecha(fecha);
+        bitacora.setIdpersonal(solicita);
+        bitacora.setIdcreador(creador.get());
+
+        Bitacoraimpresion rest = impresionService.save(bitacora);
+
+
+
+        return rest;
     }
 
 }

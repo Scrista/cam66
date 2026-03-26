@@ -21,11 +21,9 @@ public class Resguardos implements Serializable {
     @GeneratedValue
     private Long idResguardo;
 
-    /*@ManyToMany
-    private List<Personal> personal;*/
 
     @ManyToMany
-    private List<DetalleMaterial> materials;
+    private List<MaterialDidactico> materials;
 
     @Column(name = "fechaAlta")
     private Date fechaAlta;
@@ -44,6 +42,34 @@ public class Resguardos implements Serializable {
     @JoinColumn(name = "autoriza")
     private Personal autoriza;
 
+    @OneToOne
+    @JoinColumn(name = "personal")
+    private Personal resguarda;
+
+    public String getObsAutoriza() {
+        return obsAutoriza;
+    }
+
+    public void setObsAutoriza(String obsAutoriza) {
+        this.obsAutoriza = obsAutoriza;
+    }
+
+    public String getObsDevolucion() {
+        return obsDevolucion;
+    }
+
+    public void setObsDevolucion(String obsDevolucion) {
+        this.obsDevolucion = obsDevolucion;
+    }
+
+    public Personal getResguarda() {
+        return resguarda;
+    }
+
+    public void setResguarda(Personal resguarda) {
+        this.resguarda = resguarda;
+    }
+
     public Long getIdResguardo() {
         return idResguardo;
     }
@@ -60,11 +86,11 @@ public class Resguardos implements Serializable {
         this.personal = personal;
     }*/
 
-    public List<DetalleMaterial> getMaterials() {
+    public List<MaterialDidactico> getMaterials() {
         return materials;
     }
 
-    public void setMaterials(List<DetalleMaterial> materials) {
+    public void setMaterials(List<MaterialDidactico> materials) {
         this.materials = materials;
     }
 

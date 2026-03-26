@@ -3,6 +3,7 @@ package org.cmn.cam66.service;
 import org.cmn.cam66.entity.Personal;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Santiago Cristales
@@ -14,4 +15,6 @@ public interface PersonalService {
     Personal findById(Long id);
     Personal save(Personal personal);
     void delete(Long id);
+
+    Optional<Personal> findByUsuario(String username);
 }

@@ -81,5 +81,34 @@ $('#modalNuevoResguardo').on('shown.bs.modal', function () {
 });
 
 $(document).on("click","#btnGuardarResguardo",function (){
-alert(1)
-})
+
+    $.ajax({
+        url: URL_POST_RESGUARDO,
+        data: {
+            articulos:$("#articuloResguardo").data("kendoMultiSelect").value(),
+            obs: $("#obsResg").val(),
+            idpersonal:$("#personalSelect").val()
+        },
+
+        dataType: 'json',
+        sync: true,
+        success: function (data) {
+
+
+        },
+        error: function (data, status) {
+
+
+            // app.hideLoading();
+            Swal.close();
+            if (data.responseText.includes("redirect")) {
+                app.hideLoading();
+                showCaduca();
+            }
+        },
+
+    })
+
+});
+
+

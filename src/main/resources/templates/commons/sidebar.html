@@ -21,9 +21,16 @@
     </li>
 
     <li class="nav-item" sec:authorize="hasRole('ALMACEN')">
-        <a th:href="@{/Administracion/resguardos}" class="nav-link" id="vistaDocentes">
+        <a th:href="@{/Administracion/resguardos}" class="nav-link" id="vistaResguardos">
             <i class="nav-icon fas fa-door-open"></i>
             <p>Resguardos</p>
+        </a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasRole('ALMACEN')">
+        <a th:href="@{/Administracion/impresiones}" class="nav-link" id="vistaImpresiones">
+            <i class="nav-icon fas fa-door-open"></i>
+            <p>Impresiones</p>
         </a>
     </li>
 </ul>
